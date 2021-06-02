@@ -83,7 +83,7 @@ int vc_gray_highpass_filter_enhance(IVC* src, IVC* dst, int gain);
 int vc_draw_bouding_box(IVC* src, IVC* dst, OVC* blobs, int labels);
 // Desenha o centro de massa do objeto
 int vc_draw_center_mass(IVC* src, IVC* dst, OVC* blobs, int labels);
-
+int vc_hsv_red_segmentation(IVC* src, IVC* dst, int hmin, int hmax, int smin, int smax, int vmin, int vmax);
 
 int vc_convert_rgb(IVC* src, IVC* dst);
 int vc_gray_to_rgb(IVC* src, IVC* dst);

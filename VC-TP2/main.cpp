@@ -57,14 +57,18 @@ int main(void) {
 	image[1] = vc_image_new(video.width, video.height, 3, 255);
 	image[2] = vc_image_new(video.width, video.height, 1, 255);
 	image[3] = vc_image_new(video.width, video.height, 1, 255);
-	int labels, i;
+	int labels, i, j;
 	OVC* blobs;
-	int aux;
+	int aux, xCenter;
+	float percent, percent2, percent3, percent4;
+	OVC mainBlob, auxBlob;
 
 	cv::Mat frame;
+	cv::Mat frame2;
 	while (key != 'q') {
 		/* Leitura de uma frame do vídeo */
 		capture.read(frame);
+		capture.read(frame2);
 		/* Verifica se conseguiu ler a frame */
 		if (frame.empty()) break;
 
@@ -81,17 +85,67 @@ int main(void) {
 		vc_rgb_to_hsv(image[0], image[1]);
 
 		vc_hsv_segmentation(image[1], image[2], 180, 260, 50, 100, 50, 100); // H S V AZUL H200-230 S79-93 V48-60 
-		vc_binary_open(image[2], image[3], 5, 7);
+		vc_binary_open(image[2], image[3], 3, 5);
 		blobs = vc_binary_blob_labelling(image[3], image[2], &labels);
+		vc_binary_blob_info(image[2], blobs, labels);
+
+		mainBlob.area = 0;
+
+		for (i = 0; i < labels-1; i++)
+		{
+			for (j = i + 1; j < labels; j++)
+			{
+				if (blobs[i].area < blobs[j].area)
+				{
+					auxBlob = blobs[i];
+					blobs[i] = blobs[j];
+					blobs[j] = auxBlob;
+				}
+			}
+		}
+		if (blobs != NULL) {
+			if (blobs[0].area > 6000) {
+				mainBlob = blobs[0];
+				percent = mainBlob.perimeter * 100 / (float)mainBlob.area;
+				//printf("mainBlob percent: %f\n", percent);
+
+				if (percent >= 3.7 && percent <= 5.0) {	//setas
+					xCenter = mainBlob.x + mainBlob.width / 2;
+					//printf("%d - %d\n", xCenter, mainBlob.xc);
+					if (mainBlob.xc > xCenter)
+						printf("Virar a esquerda\n");
+					else if (mainBlob.xc < xCenter)
+						printf("Virar a direita\n");
+				}
+				else if (percent > 5.1) { // AUTO ESTRADA OU CARRO
+					if (labels > 3) {
+						percent2 = blobs[1].area * 100 / (float)mainBlob.area;
+						percent3 = blobs[2].area * 100 / (float)mainBlob.area;
+						percent4 = blobs[3].area * 100 / (float)mainBlob.area;
+						if (percent2 >= 14.0 && percent2 < 16.0 && percent3 >= 1.0 && percent3 < 2.2 && percent4 >= 1.0 && percent4 < 2.2) {
+							printf("CARRO\n");
+						}
+						else printf("AUTO ESTRADA\n");
+						printf("%f\t%f\t%f\t\n", percent2, percent3, percent4);
+					}
+					else printf("AUTO ESTRADA\n");
+
+				}
+			}
+		}
+
+		if (labels == 4)
+		{
+			// Carro
+		}
 
 		if (labels == 0) {
 			free(blobs);
-			vc_hsv_segmentation(image[1], image[2], 335, 360, 30, 100, 50, 100); // H S V VERMELHO H200-230 S79-93 V48-60 
+			vc_hsv_red_segmentation(image[1], image[2], 345, 5, 63, 85, 60, 90); // H S V VERMELHO H200-230 S79-93 V48-60 
 			vc_binary_open(image[2], image[3], 5, 7);
 			blobs = vc_binary_blob_labelling(image[3], image[2], &labels);
 		}
-		vc_binary_blob_info(image[2], blobs, labels);
-		printf("\n\nNumero de objs: %d\n", labels);
+		//printf("\n\nNumero de objs: %d\n", labels);
 
 
 		/*for (i = 0; i < labels; i++)
@@ -99,17 +153,23 @@ int main(void) {
 			printf("\nCentro de massa de objs: x %d - y %d\n", blobs[i].xc, blobs[i].yc);
 			printf("-> Area Nucleo %d: %d pixeis\n", i + 1, blobs[i].area);
 		}*/
+		free(blobs);
+		blobs = (OVC*)calloc((1), sizeof(OVC));
+		blobs[0] = mainBlob;
+		vc_draw_bouding_box(image[2], image[0], blobs, 1);
+		vc_draw_center_mass(image[2], image[0], blobs, 1);
+		free(blobs);
 
-		//vc_draw_bouding_box(image[2], image[0], blobs, labels);
-		//vc_draw_center_mass(image[2], image[0], blobs, labels);
-		//free(blobs);
 
-		vc_gray_to_rgb(image[3], image[0]);
+		vc_gray_to_rgb(image[3], image[1]);
+
+
 		// Copia dados de imagem da estrutura IVC para uma estrutura cv::Mat
 		memcpy(frame.data, image[0]->data, video.width * video.height * 3);
+		cv::imshow("VC - Video", frame); 
 		// +++++++++++++++++++++++++
-		/* Exibe a frame */
-		cv::imshow("VC - Video", frame);
+		memcpy(frame2.data, image[1]->data, video.width* video.height * 3);
+		cv::imshow("VC - Video2", frame2);
 
 		/* Sai da aplicação, se o utilizador premir a tecla 'q' */
 		key = cv::waitKey(1);

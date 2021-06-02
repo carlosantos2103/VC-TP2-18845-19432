@@ -1980,3 +1980,47 @@ int vc_gray_to_rgb(IVC* src, IVC* dst)
 	}
 	return 1;
 }
+
+//Converter RGB para HSV
+int vc_hsv_red_segmentation(IVC* src, IVC* dst, int hmin, int hmax, int smin, int smax, int vmin, int vmax)
+{
+	unsigned char* datasrc = (unsigned char*)src->data;
+	unsigned char* datadst = (unsigned char*)dst->data;
+	int bytesperline_src = src->width * src->channels;
+	int bytesperline_dst = dst->width * dst->channels;
+	int channels_src = src->channels;
+	int channels_dst = dst->channels;
+	int width = src->width;
+	int height = src->height;
+	float h, s, v;
+	long int pos_src, pos_dst;
+	int x, y;
+
+	// Verifica��o de erros+
+	if ((width <= 0) || (height <= 0) || (datasrc == NULL)) return 0;
+	if (width != dst->width || height != dst->height) return 0;
+	if (channels_src != 3 || dst->channels != 1) return 0;
+
+	for (y = 0; y < height; y++)
+	{
+		for (x = 0; x < width; x++)
+		{
+			pos_src = y * bytesperline_src + x * channels_src;
+			pos_dst = y * bytesperline_dst + x * channels_dst;
+			h = ((float)datasrc[pos_src]) / 255.0f * 360.0f;
+			s = ((float)datasrc[pos_src + 1]) / 255.0f * 100.0f;
+			v = ((float)datasrc[pos_src + 2]) / 255.0f * 100.0f;
+
+
+			if (h >= hmin && h < 360 || h <= hmax && h > 0
+				&& s >= smin && s <= smax
+				&& v >= vmin && v <= vmax) {
+				datadst[pos_dst] = (unsigned char)255;
+			}
+			else {
+				datadst[pos_dst] = (unsigned char)0;
+			}
+		}
+	}
+	return 1;
+}
