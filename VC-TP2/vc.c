@@ -1825,14 +1825,26 @@ int vc_draw_bouding_box(IVC* src, IVC* dst, OVC* blobs, int labels)
 					// Caso o y e x estejam compreendidos entre os parametros dos blobs desenha-se a caixa delimitadora
 					if (y >= blobs[i].y && y <= blobs[i].y + blobs[i].height && x >= blobs[i].x && x <= blobs[i].x + blobs[i].width)
 						if (x == blobs[i].x || x == blobs[i].x + blobs[i].width) {
-							datadst[pos_dst] = 255;
-							datadst[pos_dst + 1] = 255;
-							datadst[pos_dst + 2] = 255;
+							datadst[pos_dst] = 0;
+							datadst[pos_dst + 1] = 0;
+							datadst[pos_dst + 2] = 0;
+							datadst[pos_dst + 3] = 255;
+							datadst[pos_dst + 4] = 255;
+							datadst[pos_dst + 5] = 255;
+							datadst[pos_dst - 1] = 255;
+							datadst[pos_dst - 2] = 255;
+							datadst[pos_dst - 3] = 255;
 						}
 						else if (y == blobs[i].y || y == blobs[i].y + blobs[i].height) {
-							datadst[pos_dst] = 255;
-							datadst[pos_dst + 1] = 255;
-							datadst[pos_dst + 2] = 255;
+							datadst[pos_dst] = 0;
+							datadst[pos_dst + 1] = 0;
+							datadst[pos_dst + 2] = 0;
+							datadst[pos_dst + width * 3] = 255;
+							datadst[pos_dst + width * 3 + 1] = 255;
+							datadst[pos_dst + width * 3 + 2] = 255;
+							datadst[pos_dst - width * 3] = 255;
+							datadst[pos_dst - width * 3 + 1] = 255;
+							datadst[pos_dst - width * 3 + 2] = 255;
 						}
 				}
 			}
