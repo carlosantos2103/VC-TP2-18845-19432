@@ -1,0 +1,13 @@
+﻿  main.cpp
+C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\vc.h(11,1): warning C4005: 'MAX': redefinição de macro
+C:\opencv\build\include\opencv2\core\cvdef.h(469): message : consulte a definição anterior de 'MAX'
+C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\vc.h(12,1): warning C4005: 'MIN': redefinição de macro
+C:\opencv\build\include\opencv2\core\cvdef.h(465): message : consulte a definição anterior de 'MIN'
+C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\main.cpp(62,6): warning C4101: 'aux': variável local não referenciada
+C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\main.cpp(60,14): warning C4101: 'i': variável local não referenciada
+  Gerando código
+  3 of 249 functions ( 1.2%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Finalizada a geração de código
+  VC-TP2.vcxproj -> C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\x64\Release\VC-TP2.exe
