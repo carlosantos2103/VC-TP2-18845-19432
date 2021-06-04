@@ -1,12 +1,39 @@
 ﻿  main.cpp
-C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\vc.h(11,1): warning C4005: 'MAX': macro redefinition
+C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\vc.h(12,1): warning C4005: 'MAX': macro redefinition
 C:\opencv\build\include\opencv2\core\cvdef.h(469): message : see previous definition of 'MAX'
-C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\vc.h(12,1): warning C4005: 'MIN': macro redefinition
+C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\vc.h(13,1): warning C4005: 'MIN': macro redefinition
 C:\opencv\build\include\opencv2\core\cvdef.h(465): message : see previous definition of 'MIN'
-C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\main.cpp(57,6): warning C4101: 'aux': unreferenced local variable
+C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\main.cpp(67,6): warning C4101: 'aux': unreferenced local variable
+  vc.c
+C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\vc.c(246,70): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\vc.c(286,66): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\vc.c(783,32): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\vc.c(1450,88): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\vc.c(1451,88): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\vc.c(1427,20): warning C4101: 'fy': unreferenced local variable
+C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\vc.c(1427,16): warning C4101: 'fx': unreferenced local variable
+C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\vc.c(1496,96): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\vc.c(1497,96): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\vc.c(1473,20): warning C4101: 'fy': unreferenced local variable
+C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\vc.c(1473,16): warning C4101: 'fx': unreferenced local variable
+C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\vc.c(1540,128): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\vc.c(1517,20): warning C4101: 'fy': unreferenced local variable
+C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\vc.c(1517,24): warning C4101: 'magn': unreferenced local variable
+C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\vc.c(1517,16): warning C4101: 'fx': unreferenced local variable
+C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\vc.c(1517,12): warning C4101: 'My': unreferenced local variable
+C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\vc.c(1700,35): warning C4244: '=': conversion from 'float' to 'unsigned char', possible loss of data
+C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\vc.c(1744,37): warning C4244: 'function': conversion from 'float' to 'int', possible loss of data
+C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\vc.c(1761,32): warning C4101: 'newVal': unreferenced local variable
+C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\vc.c(1869,11): warning C4101: 'pos': unreferenced local variable
+C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\vc.c(1868,15): warning C4101: 'j': unreferenced local variable
+C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\vc.c(1940,15): warning C4101: 'j': unreferenced local variable
+C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\vc.c(1940,12): warning C4101: 'i': unreferenced local variable
+C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\vc.c(1972,12): warning C4101: 'b': unreferenced local variable
+C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\vc.c(1972,9): warning C4101: 'g': unreferenced local variable
+C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\vc.c(1972,6): warning C4101: 'r': unreferenced local variable
   Generating code
-  14 of 296 functions ( 4.7%) were compiled, the rest were copied from previous compilation.
-    5 functions were new in current compilation
-    6 functions had inline decision re-evaluated but remain unchanged
+  2 of 295 functions ( 0.7%) were compiled, the rest were copied from previous compilation.
+    1 functions were new in current compilation
+    4 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   VC-TP2.vcxproj -> C:\Users\carlo\OneDrive\LESI\2A2S\VC\VC-TP2-18845-19432\VC-TP2\x64\Release\VC-TP2.exe

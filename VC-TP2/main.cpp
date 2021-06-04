@@ -1,3 +1,13 @@
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//           INSTITUTO POLITECNICO DO CAVADO E DO AVE
+//                          2020/2021
+//             ENGENHARIA DE SISTEMAS INFORMATICOS
+//                 VISAO POR COMPUTADOR - TP2
+//
+//                [  JOAO AZEVEDO   - 18845  ]
+//                [  CARLOS SANTOS  - 19432  ]
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 #include <iostream>
 #include <string>
 #include <opencv2\opencv.hpp>
@@ -64,23 +74,20 @@ int main(void) {
 	while (key != 'q') {
 		/* Leitura de uma frame do vídeo */
 		capture.read(frame);
-		capture.read(frame2);
 		/* Verifica se conseguiu ler a frame */
 		if (frame.empty()) break;
-
-
 		/* Número da frame a processar */
 		video.nframe = (int)capture.get(cv::CAP_PROP_POS_FRAMES) / 2;
 
-		//// Copia dados de imagem da estrutura cv::Mat para uma estrutura IVC
+		// Copia dados de imagem da estrutura cv::Mat para uma estrutura IVC
 		memcpy(image[0]->data, frame.data, video.width * video.height * 3);
-		memcpy(image[1]->data, frame.data, video.width * video.height * 3);
 
-		vc_convert_rgb(image[1], image[0]);
-		vc_rgb_to_hsv(image[0], image[1]);
+		vc_convert_bgr_to_rgb(image[0], image[1]);
+		vc_rgb_to_hsv(image[1], image[0]);
+		vc_hsv_segmentation(image[0], image[2], 180, 260, 50, 100, 50, 100);
 
-		vc_hsv_segmentation(image[1], image[2], 180, 260, 50, 100, 50, 100); // H S V AZUL H200-230 S79-93 V48-60
-		vc_binary_open(image[2], image[3], 5, 11);
+		vc_binary_open(image[2], image[3], 5, 5);
+
 		blobs = vc_binary_blob_labelling(image[3], image[2], &labels);
 		vc_binary_blob_info(image[2], blobs, labels);
 
@@ -103,14 +110,13 @@ int main(void) {
 				}
 			}
 
-			if (blobs[0].area > 7000) { //TODO: VERIFICAR SE E UM QUADRADO (OU PERTO)
+			//VERIFICA QUE E UM OBJETO GRANDE E É UM QUADRADO
+			if (blobs[0].area > 6000 && abs(blobs[0].width - blobs[0].height) < 15) {
 				mainBlob = blobs[0];
 				percent = mainBlob.perimeter * 100 / (float)mainBlob.area;
-				//printf("mainBlob percent: %f\n", percent);
 
 				if (percent >= 3.7 && percent <= 5.0) {	//setas
 					xCenter = mainBlob.x + mainBlob.width / 2;
-					//printf("%d - %d\n", xCenter, mainBlob.xc);
 					if (mainBlob.xc > xCenter)
 						sinal = "Obrigatorio virar a esquerda";
 					else if (mainBlob.xc < xCenter)
@@ -125,7 +131,6 @@ int main(void) {
 							sinal = "Via de automoveis e motociclos";
 						}
 						else sinal = "Auto-Estrada";
-						//printf("%f\t%f\t%f\t\n", percent2, percent3, percent4);
 					}
 					else
 						sinal = "Auto-Estrada";
@@ -137,7 +142,7 @@ int main(void) {
 		if (mainBlob.area == 0) {
 			free(blobs);
 
-			vc_hsv_red_segmentation(image[1], image[2], 350, 9, 35, 75, 80, 100); // H S V VERMELHO H200-230 S79-93 V48-60 
+			vc_hsv_red_segmentation(image[0], image[2], 346, 9, 70, 100, 80, 100); // H S V VERMELHO
 			vc_binary_open(image[2], image[3], 3, 7);
 			blobs = vc_binary_blob_labelling(image[3], image[2], &labels);
 			vc_binary_blob_info(image[2], blobs, labels);
@@ -157,15 +162,15 @@ int main(void) {
 						}
 					}
 				}
-				if (blobs[0].area > 7000) { //TODO: VERIFICAR SE E UM QUADRADO (OU PERTO)
+				//VERIFICA QUE E UM OBJETO GRANDE E É UM QUADRADO
+				if (blobs[0].area > 6000 && abs(blobs[0].width - blobs[0].height) < 15) {
 					mainBlob = blobs[0];
 					percent = mainBlob.perimeter * 100 / (float)mainBlob.area;
-					//printf("RED - mainBlob percent: %f\n", percent);
 
-					if (percent >= 6.8 && percent <= 10.0) {	//STOP
+					if (percent >= 6.8 && percent <= 10.0) {
 						sinal = "STOP";
 					}
-					else if (percent > 3.5) { // PROIBIDO
+					else if (percent > 3.5) {
 						sinal = "PROIBIDO";
 					}
 				}
@@ -174,6 +179,7 @@ int main(void) {
 
 
 		free(blobs);
+		memcpy(image[0]->data, frame.data, video.width * video.height * 3);
 		if (sinal != "") {
 			blobs = (OVC*)calloc((1), sizeof(OVC));
 			blobs[0] = mainBlob;
@@ -182,22 +188,15 @@ int main(void) {
 			free(blobs);
 		}
 
-
-		vc_gray_to_rgb(image[3], image[1]);
-
-
 		// Copia dados de imagem da estrutura IVC para uma estrutura cv::Mat
-		memcpy(frame.data, frame2.data, video.width* video.height * 3);
+		memcpy(frame.data, image[0]->data, video.width* video.height * 3);
 		if (sinal != "") {
 			str = std::string("SINAL: ").append(sinal);
 			cv::putText(frame, str, cv::Point(20, 25), cv::FONT_HERSHEY_SIMPLEX, 1.0, cv::Scalar(0, 0, 0), 2);
 			cv::putText(frame, str, cv::Point(20, 25), cv::FONT_HERSHEY_SIMPLEX, 1.0, cv::Scalar(255, 255, 255), 1);
 		}
 		cv::imshow("VC - Video", frame);
-		// +++++++++++++++++++++++++
-		memcpy(frame2.data, image[1]->data, video.width * video.height * 3);
-		cv::imshow("VC - Video2", frame2);
-
+		
 		/* Sai da aplicação, se o utilizador premir a tecla 'q' */
 		key = cv::waitKey(1);
 	}
